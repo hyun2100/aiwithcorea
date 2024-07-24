@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'send.dart';
-import 'receive.dart';
 
 main() {
   runApp(const MyApp());
@@ -13,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'AlertDialog Gesture',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

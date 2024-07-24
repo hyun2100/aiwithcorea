@@ -3,30 +3,25 @@ import 'send.dart';
 import 'receive.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('메일함'),
+        title: Text('메일함 : 알람, 푸쉬, 제스쳐 연습'),
+        titleTextStyle: TextStyle(fontSize: 15),
         actions: [
           IconButton(
             icon: Icon(Icons.send),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SendPage()),
-              );
+              _showSendAlertDialog(context); // 알림 대화상자 표시
             },
           ),
           IconButton(
             icon: Icon(Icons.receipt),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ReceivePage()),
-              );
+              _showReceiveAlertDialog(context); // 알림 대화상자 표시
             },
           ),
         ],
@@ -45,19 +40,13 @@ class Home extends StatelessWidget {
             ListTile(
               title: Text('보낸 메일함'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SendPage()),
-                );
+                _showSendAlertDialog(context); // 알림 대화상자 표시
               },
             ),
             ListTile(
               title: Text('받은 메일함'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ReceivePage()),
-                );
+                _showReceiveAlertDialog(context); // 알림 대화상자 표시
               },
             ),
           ],
@@ -69,38 +58,105 @@ class Home extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SendPage()),
-                );
+                _showSendAlertDialog(context); // 알림 대화상자 표시
               },
               child: Column(
                 children: [
                   Icon(Icons.send, size: 48, color: Colors.green),
-                  SizedBox(height: 8),
-                  Text('보낸 메일함', style: TextStyle(fontSize: 20)),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text('보낸 메일함', style: TextStyle(fontSize: 20)),
+                  ),
                 ],
               ),
             ),
-            SizedBox(height: 40), // 두 아이콘 사이의 간격
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: Container(),
+            ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ReceivePage()),
-                );
+                _showReceiveAlertDialog(context); // 알림 대화상자 표시
               },
               child: Column(
                 children: [
                   Icon(Icons.receipt, size: 48, color: Colors.green),
-                  SizedBox(height: 8),
-                  Text('받은 메일함', style: TextStyle(fontSize: 20)),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text('받은 메일함', style: TextStyle(fontSize: 20)),
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  // 보낸 메일함 알림 대화상자 함수
+  void _showSendAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('이동'),
+          content: Text('보낸 메일함으로 이동하시겠습니까?'),
+          actions: [
+            TextButton(
+              child: Text('취소'),
+              onPressed: () {
+                Navigator.of(context).pop(); // 다이얼로그 닫기
+              },
+            ),
+            TextButton(
+              child: Text('보낸 메일함 이동', style: TextStyle(color: Colors.blue)),
+              onPressed: () {
+                Navigator.of(context).pop(); // 다이얼로그 닫기
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SendPage()),
+                ); // 다음 페이지로 이동
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // 받은 메일함 알림 대화상자 함수
+  void _showReceiveAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('이동'),
+          content: Text('받은 메일함으로 이동하시겠습니까?'),
+          contentPadding: EdgeInsets.fromLTRB(70, 20, 70, 30),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.zero, // 모서리를 직각으로 설정
+          ),
+          actions: [
+            TextButton(
+              child: Text('취소'),
+              onPressed: () {
+                Navigator.of(context).pop(); // 다이얼로그 닫기
+              },
+            ),
+            TextButton(
+              child: Text('받은 메일함 이동', style: TextStyle(color: Colors.blue)),
+              onPressed: () {
+                Navigator.of(context).pop(); // 다이얼로그 닫기
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ReceivePage()),
+                ); // 다음 페이지로 이동
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
